@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CitySafe | Disaster Preparedness Guide</title>
+    <style>
+        :root {
+            --navy: #102b3f;
+            --teal: #24b8a8;
+            --ink: #18384a;
+            --muted: #647985;
+            --shadow: 0 12px 30px #102b3f18;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: #f2f7fa;
+            color: var(--ink);
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 5;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 18px;
+            padding: 16px 7%;
+            color: white;
+            background: var(--navy);
+            box-shadow: var(--shadow);
+        }
+
+        .logo h2 {
+            color: var(--teal);
+            letter-spacing: 2px;
+        }
+
+        .logo p {
+            font-size: 11px;
+            letter-spacing: 1px;
+        }
+
+        nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        nav a {
+            padding: 8px 12px;
+            border-radius: 20px;
+            color: white;
+        }
+
+        nav a:hover,
+        nav a:focus-visible {
+            background: #ffffff20;
+        }
+
+        .hero {
+            padding: 85px 7%;
+            text-align: center;
+            color: white;
+            background: linear-gradient(130deg, #102b3f, #147d80);
+        }
+
+        .hero h1 {
+            margin-bottom: 12px;
+            font-size: clamp(2.2rem, 5vw, 4rem);
+            line-height: 1.15;
+        }
+
+        .hero p {
+            max-width: 700px;
+            margin: auto;
+            color: #e2f1f3;
+            font-size: 1.1rem;
+        }
+
+        .hero-btn {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 12px 24px;
+            border-radius: 10px;
+            background: var(--teal);
+            color: var(--navy);
+            font-weight: bold;
+        }
+
+        .hero-btn:hover {
+            background: #55d5c3;
+        }
+
+        section {
+            padding: 60px 7%;
+            scroll-margin-top: 80px;
+        }
+
+        .section-title {
+            margin-bottom: 26px;
+            text-align: center;
+        }
+
+        .section-title h2 {
+            color: var(--navy);
+            font-size: clamp(1.8rem, 3vw, 2.5rem);
+        }
+
+        .section-title p,
+        .card p,
+        #itemsCount {
+            color: var(--muted);
+        }
+
+        .stats,
+        .shelter-container,
+        .helpline-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 20px;
+        }
+
+        .stats {
+            position: relative;
+            z-index: 1;
+            margin: -30px 7% 0;
+            padding: 0;
+        }
+
+        .stat-card,
+        .card,
+        .checklist-box {
+            padding: 24px;
+            border-radius: 18px;
+            background: white;
+            box-shadow: var(--shadow);
+        }
+
+        .stat-card {
+            text-align: center;
+        }
+
+        .stat-card h2 {
+            color: var(--teal);
+            font-size: 2rem;
+        }
+
+        .stat-card p {
+            color: var(--muted);
+        }
+
+        .alert {
+            max-width: 950px;
+            margin: auto;
+            padding: 22px;
+            border-left: 6px solid #ee9b51;
+            border-radius: 12px;
+            background: #fff0e2;
+        }
+
+        .alert h3 {
+            margin-bottom: 8px;
+            color: #8c4d1f;
+        }
+
+        .alert p {
+            color: #594532;
+        }
+
+        .demo-label {
+            margin-left: 6px;
+            padding: 4px 8px;
+            border-radius: 20px;
+            background: #ffe0c5;
+            font-size: 11px;
+        }
+
+        .card {
+            border-top: 4px solid var(--teal);
+            transition: transform 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+        }
+
+        .card h3 {
+            margin-bottom: 12px;
+            color: var(--navy);
+            font-size: 1.4rem;
+        }
+
+        .card p {
+            margin: 7px 0;
+        }
+
+        .coordinates {
+            margin-top: 12px;
+            padding: 10px;
+            border-radius: 8px;
+            background: #eaf7f7;
+            font-weight: bold;
+        }
+
+        .copy-btn,
+        .reset-btn {
+            padding: 10px 15px;
+            border: 0;
+            border-radius: 8px;
+            background: var(--navy);
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .copy-btn {
+            width: 100%;
+            margin-top: 12px;
+        }
+
+        .copy-btn:hover,
+        .reset-btn:hover {
+            background: #176f72;
+        }
+
+        .checklist-box {
+            max-width: 800px;
+            margin: auto;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+        }
+
+        #percentage {
+            color: #078679;
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        progress {
+            width: 100%;
+            height: 14px;
+            margin: 10px 0;
+            accent-color: var(--teal);
+        }
+
+        #itemsCount {
+            margin-bottom: 16px;
+        }
+
+        .checklist-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 12px;
+        }
+
+        .checklist-items label {
+            padding: 12px;
+            border-radius: 8px;
+            background: #f2f7fa;
+            cursor: pointer;
+        }
+
+        .checklist-items input {
+            margin-right: 8px;
+            accent-color: var(--teal);
+        }
+
+        #message {
+            margin-top: 16px;
+            color: #078679;
+            font-weight: bold;
+        }
+
+        .reset-btn {
+            margin-top: 14px;
+        }
+
+        .helpline-card {
+            padding: 24px;
+            border-radius: 16px;
+            background: var(--navy);
+            color: white;
+            text-align: center;
+        }
+
+        .helpline-card h3 {
+            margin-bottom: 8px;
+            color: #65decf;
+        }
+
+        .helpline-card h2 {
+            font-size: 2rem;
+        }
+
+        .helpline-card p {
+            color: #dcebef;
+            font-size: 14px;
+        }
+
+        .ndrf-link {
+            color: #65decf;
+            text-decoration: underline;
+        }
+
+        footer {
+            padding: 22px;
+            background: #0c2232;
+            color: white;
+            text-align: center;
+        }
+
+        footer p + p {
+            color: #dcebef;
+        }
+
+        button:focus-visible,
+        a:focus-visible,
+        input:focus-visible {
+            outline: 3px solid #f3a55b;
+            outline-offset: 3px;
+        }
+
+        @media (max-width: 650px) {
+            header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            section {
+                padding: 45px 5%;
+            }
+
+            .stats {
+                margin-right: 5%;
+                margin-left: 5%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header -->
+
+    <header>
+        <div class="logo">
+            <h2>CITYSAFE</h2>
+            <p>DISASTER PREPAREDNESS PORTAL</p>
+        </div>
+
+        <nav>
+            <a href="#shelters">Shelters</a>
+            <a href="#alerts">Alerts</a>
+            <a href="#checklist">Go-Bag</a>
+            <a href="#helplines">Helplines</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+
+    <div class="hero">
+        <h1>Be Prepared. Stay Safe.</h1>
+        <p>
+            Your simple guide to disaster preparedness,
+            emergency shelters and safety information.
+        </p>
+
+        <a href="#shelters" class="hero-btn">Explore Shelters</a>
+    </div>
+
+    <!-- Dashboard Stats -->
+
+    <div class="stats">
+        <div class="stat-card">
+            <h2>03</h2>
+            <p>Sample Shelter Locations</p>
+        </div>
+
+        <div class="stat-card">
+            <h2 id="statProgress">0%</h2>
+            <p>Go-Bag Prepared</p>
+        </div>
+
+        <div class="stat-card">
+            <h2>24/7</h2>
+            <p>Emergency Preparedness</p>
+        </div>
+    </div>
+
+    <!-- Emergency Alert -->
+
+    <section id="alerts">
+        <div class="section-title">
+            <h2>Emergency Alerts</h2>
+            <p>Important safety information</p>
+        </div>
+
+        <div class="alert">
+            <h3>
+                Flood Safety Advisory
+                <span class="demo-label">DEMO ALERT</span>
+            </h3>
+
+            <p>
+                Residents in low-lying areas should stay alert,
+                follow official government advisories and move
+                to a safer location when instructed by authorities.
+            </p>
+        </div>
+    </section>
+
+    <!-- Shelter Directory -->
+
+    <section id="shelters">
+        <div class="section-title">
+            <h2>Emergency Shelter Directory</h2>
+            <p>Sample shelter information and coordinates</p>
+        </div>
+
+        <div class="shelter-container">
+
+            <div class="card">
+                <h3>Community Hall</h3>
+
+                <p><b>Location:</b> Jalandhar</p>
+                <p><b>Capacity:</b> 200 People</p>
+                <p><b>Type:</b> Community Shelter</p>
+
+                <div class="coordinates">
+                    31.3260, 75.5762
+                </div>
+
+                <button class="copy-btn"
+                    data-coordinates="31.3260, 75.5762">
+                    Copy Coordinates
+                </button>
+            </div>
+
+            <div class="card">
+                <h3>Government School</h3>
+
+                <p><b>Location:</b> Phagwara</p>
+                <p><b>Capacity:</b> 150 People</p>
+                <p><b>Type:</b> School Shelter</p>
+
+                <div class="coordinates">
+                    31.2240, 75.7708
+                </div>
+
+                <button class="copy-btn"
+                    data-coordinates="31.2240, 75.7708">
+                    Copy Coordinates
+                </button>
+            </div>
+
+            <div class="card">
+                <h3>Indoor Stadium</h3>
+
+                <p><b>Location:</b> Jalandhar</p>
+                <p><b>Capacity:</b> 500 People</p>
+                <p><b>Type:</b> Public Shelter</p>
+
+                <div class="coordinates">
+                    31.3260, 75.5762
+                </div>
+
+                <button class="copy-btn"
+                    data-coordinates="31.3260, 75.5762">
+                    Copy Coordinates
+                </button>
+            </div>
+
+        </div>
+
+        <p style="text-align:center; margin-top:20px; color:#667985; font-size:12px;">
+            Note: Shelter names, capacities and coordinates are illustrative demo data.
+            Verify actual shelter details with local authorities.
+        </p>
+    </section>
+
+    <!-- Go Bag Checklist -->
+
+    <section id="checklist">
+        <div class="section-title">
+            <h2>Family Emergency Go-Bag</h2>
+            <p>Check the items you have prepared</p>
+        </div>
+
+        <div class="checklist-box">
+
+            <div class="progress-info">
+                <h3>Preparation Progress</h3>
+                <span id="percentage">0%</span>
+            </div>
+
+            <progress id="progress" value="0" max="100"></progress>
+
+            <p id="itemsCount">0 of 10 items ready</p>
+
+            <br>
+
+            <div class="checklist-items" id="items">
+
+                <label>
+                    <input type="checkbox">
+                    Drinking Water
+                </label>
+
+                <label>
+                    <input type="checkbox">
+                    Non-Perishable Food
+                </label>
+
+                <label>
+                    <input type="checkbox">
+                    Flashlight
+                </label>
+
+                <label>
+                    <input type="checkbox">
+                    Battery Radio
+                </label>
+
+                <label>
+                    <input type="checkbox">
+                    First Aid Kit
+                </label>
+
+                <label>
+                    <input type="checkbox">
+                    Important Documents
+                </label>
+
+                <label>
+                    <input type="checkbox">
+                    Extra Batteries
+                </label>
+
+                <label>
+                    <input type="checkbox">
+                    Basic Medicines
+                </label>
+
+                <label>
+                    <input type="checkbox">
+                    Mobile Charger
+                </label>
+
+                <label>
+                    <input type="checkbox">
+                    Emergency Contact List
+                </label>
+
+            </div>
+
+            <p id="message">Let's get prepared!</p>
+
+            <button class="reset-btn" id="resetButton">
+                Reset Checklist
+            </button>
+
+        </div>
+    </section>
+
+    <!-- Emergency Helplines -->
+
+    <section id="helplines">
+        <div class="section-title">
+            <h2>Emergency Helplines</h2>
+            <p>Important emergency contact numbers</p>
+        </div>
+
+        <div class="helpline-container">
+
+            <div class="helpline-card">
+                <h3>National Emergency</h3>
+                <h2>112</h2>
+                <p>Emergency Response Support</p>
+            </div>
+
+            <div class="helpline-card">
+                <h3>Fire Rescue</h3>
+                <h2>101</h2>
+                <p>Fire and Rescue Services</p>
+            </div>
+
+            <div class="helpline-card">
+                <h3>
+                    <a class="ndrf-link"
+                       href="https://ndrf.gov.in/"
+                       target="_blank"
+                       rel="noopener noreferrer">
+                        NDRF
+                    </a>
+                </h3>
+
+                <p>National Disaster Response Force</p>
+                <p>Official Website</p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+
+    <footer>
+        <p>© 2026 CITYSAFE | Disaster Preparedness Guide</p>
+        <p>Stay Alert. Stay Prepared. Stay Safe.</p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        const checkboxes = [
+            ...document.querySelectorAll("#items input[type='checkbox']")
+        ];
+        const percentage = document.getElementById("percentage");
+        const progress = document.getElementById("progress");
+        const itemsCount = document.getElementById("itemsCount");
+        const message = document.getElementById("message");
+        const statProgress = document.getElementById("statProgress");
+
+        function updateProgress() {
+            const checked = checkboxes.filter(box => box.checked).length;
+            const percent = Math.round((checked / checkboxes.length) * 100);
+
+            percentage.textContent = percent + "%";
+            statProgress.textContent = percent + "%";
+            progress.value = percent;
+            itemsCount.textContent =
+                checked + " of " + checkboxes.length + " items ready";
+
+            if (percent === 100) {
+                message.textContent = "Great! Your Go-Bag checklist is complete.";
+            } else if (percent === 0) {
+                message.textContent = "Let's get prepared!";
+            } else {
+                message.textContent = "Good progress! Prepare your remaining items.";
+            }
+        }
+
+        checkboxes.forEach(function (box) {
+            box.addEventListener("change", updateProgress);
+        });
+
+        document
+            .getElementById("resetButton")
+            .addEventListener("click", function () {
+                checkboxes.forEach(function (box) {
+                    box.checked = false;
+                });
+
+                updateProgress();
+            });
+
+        document.querySelectorAll(".copy-btn").forEach(function (button) {
+            button.addEventListener("click", async function () {
+                try {
+                    if (navigator.clipboard && window.isSecureContext) {
+                        await navigator.clipboard.writeText(
+                            button.dataset.coordinates
+                        );
+                    } else {
+                        const input = document.createElement("textarea");
+                        input.value = button.dataset.coordinates;
+                        document.body.appendChild(input);
+                        input.select();
+
+                        const copied = document.execCommand("copy");
+                        input.remove();
+
+                        if (!copied) throw new Error("Copy failed");
+                    }
+
+                    button.textContent = "Copied!";
+                } catch (error) {
+                    button.textContent = "Copy failed";
+                }
+
+                setTimeout(function () {
+                    button.textContent = "Copy Coordinates";
+                }, 2000);
+            });
+        });
+
+        updateProgress();
+    </script>
+
+</body>
+</html>
